@@ -38,7 +38,7 @@ fun RepoListScreen(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp)
         ) {
-            items(listOf("Repo1", "Repo2")) { repoItem ->
+            items(listOf("Repo1", "Repo2, Repo3","Repo4,Repo5","Repo6")) {
                 RepoItem()
             }
         }

@@ -3,6 +3,7 @@ package com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.compo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,13 +74,17 @@ fun RepoItem() {
             }
 
             Text("RepoOwner", color = MaterialTheme.colorScheme.onSurface)
-            Text(
-                "Description ;alksdfjlk ;as kasdjf;klasjf kasjf;lkasdjf; as;jdfkl;asj; kal;sjdfk;as lkajsdf lkjas ;laskjdf lkasdjf asldfj;l aklsdfj; lka alsdjflk;alskdjkfa;ksld seif seif seif",
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = 12.dp),
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(verticalArrangement = Arrangement.SpaceEvenly) {
+                Text(text = "Description :", textDecoration = TextDecoration.Underline, softWrap = true, fontStyle = FontStyle.Italic, modifier = Modifier.fillMaxWidth().padding(top = 5.dp))
+                Text(
+                    "This is a text descriptions",
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(top = 1.dp),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
         }
 
     }
