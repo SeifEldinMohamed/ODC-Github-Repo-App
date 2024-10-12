@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.odcgithubrepoapp.R
+import com.example.odcgithubrepoapp.presentation.theme.ODCGithubRepoAppTheme
 
 @Composable
 fun RepoItem() {
@@ -86,7 +87,7 @@ fun RepoItem() {
 @Preview
 @Composable
 private fun PreviewRepoItem() {
-    //  ODCGithubRepoAppTheme {
-    RepoItem()
-    // }
+    ODCGithubRepoAppTheme {
+        RepoItem()
+    }
 }

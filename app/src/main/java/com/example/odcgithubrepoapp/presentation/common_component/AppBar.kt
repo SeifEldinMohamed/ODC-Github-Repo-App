@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.odcgithubrepoapp.R
+import com.example.odcgithubrepoapp.presentation.theme.ODCGithubRepoAppTheme
 
 @ExperimentalMaterial3Api
 @Composable
@@ -53,10 +54,10 @@ fun AppBar(
 @Preview
 @Composable
 private fun PreviewAppBar() {
-    //  ODCGithubRepoAppTheme {
-    AppBar(
-        title = R.string.app_name,
-        showBackButton = false
-    )
-    //  }
+      ODCGithubRepoAppTheme {
+          AppBar(
+              title = R.string.app_name,
+              showBackButton = false
+          )
+      }
 }

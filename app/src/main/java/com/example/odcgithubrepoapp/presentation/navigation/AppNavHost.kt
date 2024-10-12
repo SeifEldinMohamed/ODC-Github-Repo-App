@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.RepoListScreen
+import com.example.odcgithubrepoapp.presentation.utils.Constants.Companion.NAME_ARGUMENT_KEY
+import com.example.odcgithubrepoapp.presentation.utils.Constants.Companion.OWNER_ARGUMENT_KEY
 
 @Composable
 fun AppNavHost(
@@ -22,7 +24,7 @@ fun AppNavHost(
         composable(route = Screens.RepoListScreen.route) {
             RepoListScreen()
            // LaunchedEffect(Unit) {
-                navController.navigate(Screens.RepoDetailsScreen.passOwnerAndName("Seif", "Kotlin"))
+             //   navController.navigate(Screens.RepoDetailsScreen.passOwnerAndName("Seif", "Kotlin"))
            // }
         }
 
