@@ -20,6 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,25 +32,37 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.githubreposapp.presentation.screens.repo_details_screen.preview_data.fakeRepoDetailsUiModel
+import com.example.odcgithubrepoapp.presentation.common_component.shimmer.details.AnimateShimmerDetails
+import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.preview_data.fakeRepoDetailsUiModel
 import com.example.odcgithubrepoapp.R
 import com.example.odcgithubrepoapp.presentation.common_component.AppBar
+import com.example.odcgithubrepoapp.presentation.common_component.ErrorSection
 import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.components.DetailsItem
 import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.model.RepoDetailsUiModel
+import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.model.RepoDetailsUiState
+import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.viewmodel.RepoDetailsViewModel
 import com.example.odcgithubrepoapp.presentation.theme.ODCGithubRepoAppTheme
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepoDetailsScreen(
     modifier: Modifier = Modifier,
     owner: String,
     name: String,
     onClickBack: () -> Unit,
-    onClickViewIssues: () -> Unit,
     onShowIssuesClicked: () -> Unit
 ) {
+    val repoDetailsViewModel: RepoDetailsViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        repoDetailsViewModel.requestRepoDetails(ownerName = owner, name = name)
+    }
+
+    val repoDetailsUiState by repoDetailsViewModel.repoDetailsStateFlow.collectAsStateWithLifecycle()
 
     Scaffold(modifier = modifier.fillMaxSize(),
         topBar = {
@@ -59,7 +73,33 @@ fun RepoDetailsScreen(
         }
     ) { innerPadding ->
 
-       // DetailsContent(innerPadding, ) { }
+        when (val result = repoDetailsUiState) {
+            is RepoDetailsUiState.InitialState -> {}
+
+            is RepoDetailsUiState.Loading -> {
+                if (result.isLoading)
+                    AnimateShimmerDetails(
+                        innerPadding = innerPadding
+                    )
+            }
+
+            is RepoDetailsUiState.RepoDetailsUiModelData -> {
+                DetailsContent(
+                    innerPadding = innerPadding,
+                    repoDetailsUiModel = result.repositoryDetails,
+                    onShowIssuesClicked = onShowIssuesClicked
+                )
+            }
+            is RepoDetailsUiState.Error -> {
+                ErrorSection(
+                    innerPadding = innerPadding,
+                    customErrorExceptionUiModel = result.customErrorExceptionUiModel,
+                    onRefreshButtonClicked = {
+                        repoDetailsViewModel.requestRepoDetails(ownerName = owner, name = name)
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -106,7 +146,7 @@ fun DetailsContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DetailsItem(
-                value = repoDetailsUiModel.stars.toString(),
+                value = repoDetailsUiModel.stars,
                 image = R.drawable.ic_star,
                 modifier = Modifier.weight(1f),
                 colorFilter = ColorFilter.tint(Color.Yellow),
@@ -127,7 +167,7 @@ fun DetailsContent(
                 )
             }
             DetailsItem(
-                value = repoDetailsUiModel.forks.toString(),
+                value = repoDetailsUiModel.forks,
                 image = R.drawable.ic_fork,
                 modifier = Modifier.weight(1f),
             )
@@ -163,7 +203,7 @@ fun DetailsContent(
 @Preview(showBackground = true)
 @Composable
 fun DetailsScreenPreview() {
-    ODCGithubRepoAppTheme  {
+    ODCGithubRepoAppTheme {
         DetailsContent(
             innerPadding = PaddingValues(12.dp),
             repoDetailsUiModel = fakeRepoDetailsUiModel,

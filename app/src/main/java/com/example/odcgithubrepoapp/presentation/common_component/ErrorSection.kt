@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,31 +31,33 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.odcgithubrepoapp.R
-import com.example.odcgithubrepoapp.presentation.model.CustomExceptionUiModel
+import com.example.odcgithubrepoapp.presentation.model.CustomRemoteExceptionUiModel
 import com.example.odcgithubrepoapp.presentation.theme.LightGray
 import com.example.odcgithubrepoapp.presentation.theme.LightGreen
 
 
 @Composable
 fun ErrorSection(
+    innerPadding: PaddingValues,
     onRefreshButtonClicked: () -> Unit,
-    customErrorExceptionUiModel: CustomExceptionUiModel
+    customErrorExceptionUiModel: CustomRemoteExceptionUiModel
 ) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.error_animation))
     val errorMessage = when(customErrorExceptionUiModel){
-        is CustomExceptionUiModel.Timeout -> stringResource(R.string.timeout_exception_message)
-        is CustomExceptionUiModel.NoInternetConnection -> stringResource(R.string.no_internet_connection_exception_message)
-        is CustomExceptionUiModel.Network -> stringResource(R.string.network_exception_meesage)
-        is CustomExceptionUiModel.ServiceUnreachable -> stringResource(R.string.service_unreachable_exception_message)
-        is CustomExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
+        is CustomRemoteExceptionUiModel.Timeout -> stringResource(R.string.timeout_exception_message)
+        is CustomRemoteExceptionUiModel.NoInternetConnection -> stringResource(R.string.no_internet_connection_exception_message)
+      //  is CustomExceptionUiModel.Network -> stringResource(R.string.network_exception_meesage)
+        is CustomRemoteExceptionUiModel.ServiceUnreachable -> stringResource(R.string.service_unreachable_exception_message)
+        is CustomRemoteExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
 
     }
     Column(
         modifier = Modifier
+            .padding(innerPadding)
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -62,7 +65,7 @@ fun ErrorSection(
             composition = composition,
             iterations = LottieConstants.IterateForever,
             modifier = Modifier
-                .padding(top = 50.dp, bottom = 25.dp)
+                .padding( bottom = 25.dp)
                 .fillMaxWidth().height(340.dp)
         )
 
@@ -106,8 +109,9 @@ fun ErrorSection(
 @Composable
 fun PreviewNoInternetConnection() {
     ErrorSection(
+        innerPadding = PaddingValues(12.dp),
         onRefreshButtonClicked = {},
-        customErrorExceptionUiModel = CustomExceptionUiModel.NoInternetConnection
+        customErrorExceptionUiModel = CustomRemoteExceptionUiModel.NoInternetConnection
     )
 }
 

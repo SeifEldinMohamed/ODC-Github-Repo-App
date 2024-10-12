@@ -1,31 +1,27 @@
 package com.example.odcgithubrepoapp.presentation.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.githubreposapp.presentation.screens.repo_details_screen.RepoDetailsScreen
 import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.RepoListScreen
 import com.example.odcgithubrepoapp.presentation.utils.Constants.Companion.NAME_ARGUMENT_KEY
 import com.example.odcgithubrepoapp.presentation.utils.Constants.Companion.OWNER_ARGUMENT_KEY
 
 @Composable
-fun AppNavHost(
-
-) {
+fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = Screens.RepoListScreen.route
     ) {
         composable(route = Screens.RepoListScreen.route) {
-            RepoListScreen()
-           // LaunchedEffect(Unit) {
-             //   navController.navigate(Screens.RepoDetailsScreen.passOwnerAndName("Seif", "Kotlin"))
-           // }
+            RepoListScreen { ownerName, name ->
+                navController.navigate(Screens.RepoDetailsScreen.passOwnerAndName(ownerName, name))
+            }
         }
 
         composable(
@@ -41,12 +37,18 @@ fun AppNavHost(
         ){ navBackStackEntry ->
             val owner = navBackStackEntry.arguments?.getString(OWNER_ARGUMENT_KEY)
             val name = navBackStackEntry.arguments?.getString(NAME_ARGUMENT_KEY)
-            LaunchedEffect(Unit) {
-                Log.d("Details", "owner:$owner, name: $name")
+            if (owner!= null && name != null){
+                RepoDetailsScreen(
+                    owner = owner,
+                    name = name,
+                    onShowIssuesClicked = {
+                        // navigate to issues screen
+                    },
+                    onClickBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
-            // repo details screen
         }
-
     }
-
 }

@@ -1,6 +1,6 @@
-package com.example.githubreposapp.presentation.screens.repo_details_screen.model
+package com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.model
 
-import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.model.RepoDetailsUiModel
+import com.example.odcgithubrepoapp.presentation.model.CustomRemoteExceptionUiModel
 
 
 //data class RepositoryDetailsUiState(
@@ -11,9 +11,9 @@ import com.example.odcgithubrepoapp.presentation.screens.repo_details_screen.mod
 //)
 
 sealed class RepoDetailsUiState {
-    object InitialState: RepoDetailsUiState()
+    data object InitialState: RepoDetailsUiState()
     data class RepoDetailsUiModelData(val repositoryDetails: RepoDetailsUiModel) : RepoDetailsUiState()
     data class Loading(val isLoading: Boolean = true) : RepoDetailsUiState()
-    data class Error(val errorMessage:String) : RepoDetailsUiState()
-    // data class Error(val customErrorExceptionUiModel: CustomExceptionUiModel) : RepoDetailsUiState()
+    data class Error(val customErrorExceptionUiModel: CustomRemoteExceptionUiModel) : RepoDetailsUiState()
+    //data class Error(val errorMessage:String) : RepoDetailsUiState()
 }

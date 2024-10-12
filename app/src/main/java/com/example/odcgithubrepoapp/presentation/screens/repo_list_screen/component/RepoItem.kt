@@ -24,10 +24,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.odcgithubrepoapp.R
+import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.model.GithubReposUiModel
+import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.preview_data.fakeRepoUiModelList
 import com.example.odcgithubrepoapp.presentation.theme.ODCGithubRepoAppTheme
 
 @Composable
-fun RepoItem() {
+fun RepoItem(
+    githubRepoUiModel: GithubReposUiModel,
+    onRepoItemClicked: (String, String) -> Unit
+) {
     val imageCrossFadeAnimationDuration = 1000
     Row(
         modifier = Modifier
@@ -38,13 +43,13 @@ fun RepoItem() {
                 shape = MaterialTheme.shapes.medium
             )
             .clickable {
-
+                onRepoItemClicked(githubRepoUiModel.ownerName, githubRepoUiModel.name)
             }
     ) {
         Image(
             painter = rememberAsyncImagePainter(
                 ImageRequest.Builder(LocalContext.current)
-                    .data(data = "http//...").apply {
+                    .data(data = githubRepoUiModel.avatarUrl).apply {
                         crossfade(imageCrossFadeAnimationDuration)
                         placeholder(R.drawable.ic_github_placeholser)
                         error(R.drawable.ic_github_placeholser)
@@ -61,8 +66,8 @@ fun RepoItem() {
             Modifier.padding(12.dp)
         ) {
             Row {
-                Text(text = "Title", modifier = Modifier.weight(1f))
-                Text(text = "Title")
+                Text(text = githubRepoUiModel.name, modifier = Modifier.weight(1f))
+                Text(text =  githubRepoUiModel.starsCount)
                 Icon(
                     painter = painterResource(R.drawable.ic_star),
                     contentDescription = null,
@@ -71,9 +76,9 @@ fun RepoItem() {
                 )
             }
 
-            Text("RepoOwner", color = MaterialTheme.colorScheme.onSurface)
+            Text(githubRepoUiModel.ownerName, color = MaterialTheme.colorScheme.onSurface)
             Text(
-                "Description ;alksdfjlk ;as kasdjf;klasjf kasjf;lkasdjf; as;jdfkl;asj; kal;sjdfk;as lkajsdf lkjas ;laskjdf lkasdjf asldfj;l aklsdfj; lka alsdjflk;alskdjkfa;ksld seif seif seif",
+                githubRepoUiModel.description,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 12.dp),
                 maxLines = 3,
@@ -88,6 +93,10 @@ fun RepoItem() {
 @Composable
 private fun PreviewRepoItem() {
     ODCGithubRepoAppTheme {
-        RepoItem()
+        RepoItem(
+            githubRepoUiModel = fakeRepoUiModelList.first(),
+            onRepoItemClicked = { _, _ ->
+            }
+        )
     }
 }

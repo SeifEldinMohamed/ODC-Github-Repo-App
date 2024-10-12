@@ -1,46 +1,62 @@
 package com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.preview_data
 
-import com.example.githubreposapp.presentation.screens.repo_list_screen.model.GithubRepoUiModel
+import com.example.odcgithubrepoapp.presentation.model.CustomRemoteExceptionUiModel
+import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.model.GithubReposUiModel
+import com.example.odcgithubrepoapp.presentation.screens.repo_list_screen.model.RepoListUiState
 
 val fakeRepoUiModelList = listOf(
-    GithubRepoUiModel(
+    GithubReposUiModel(
         id = 1,
         name = "KotlinCoroutines",
-        avatar = "https://avatars.githubusercontent.com/u/1485041?v=4",
+        avatarUrl = "https://avatars.githubusercontent.com/u/1485041?v=4",
         description = "Multiplatform coroutines for Kotlin",
-        stars = 10000,
-        owner = "JetBrains"
+        starsCount = "10000",
+        ownerName = "JetBrains"
     ),
-    GithubRepoUiModel(
+    GithubReposUiModel(
         id = 2,
         name = "Compose",
-        avatar = "https://avatars.githubusercontent.com/u/281053?v=4",
+        avatarUrl = "https://avatars.githubusercontent.com/u/281053?v=4",
         description = "Declarative UI toolkit for Android",
-        stars = 8000,
-        owner = "JetBrains"
+        starsCount = "8000",
+        ownerName = "JetBrains"
     ),
-    GithubRepoUiModel(
+    GithubReposUiModel(
         id = 3,
         name = "Retrofit",
-        avatar = "https://avatars.githubusercontent.com/u/1485041?v=4",
+        avatarUrl = "https://avatars.githubusercontent.com/u/1485041?v=4",
         description = "Type-safe HTTP client for Android and Java",
-        stars = 6000,
-        owner = "Square"
+        starsCount = "6000",
+        ownerName = "Square"
     ),
-    GithubRepoUiModel(
+    GithubReposUiModel(
         id = 4,
         name = "OkHttp",
-        avatar = "https://avatars.githubusercontent.com/u/1485041?v=4",
+        avatarUrl = "https://avatars.githubusercontent.com/u/1485041?v=4",
         description = "Efficient HTTP client for Android and Java",
-        stars = 5000,
-        owner = "Square"
+        starsCount = "5000",
+        ownerName = "Square"
     ),
-    GithubRepoUiModel(
+    GithubReposUiModel(
         id = 5,
         name = "Room",
-        avatar = "https://avatars.githubusercontent.com/u/1485041?v=4",
+        avatarUrl = "https://avatars.githubusercontent.com/u/1485041?v=4",
         description = "SQLite database access object",
-        stars = 4000,
-        owner = "Google"
+        starsCount = "4000",
+        ownerName = "Google"
     )
+)
+
+val fakeRepoListUiState = RepoListUiState(
+    isLoading = false,
+    isError = false,
+    repoList = fakeRepoUiModelList
+)
+val fakeRepoListLoadingUiState = RepoListUiState(
+    isLoading = true,
+)
+val fakeRepoListErrorUiState = RepoListUiState(
+    isLoading = false,
+    isError = true,
+    customRemoteExceptionUiModel = CustomRemoteExceptionUiModel.NoInternetConnection
 )

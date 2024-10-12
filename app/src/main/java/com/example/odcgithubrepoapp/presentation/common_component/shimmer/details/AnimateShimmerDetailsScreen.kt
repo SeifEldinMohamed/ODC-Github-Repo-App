@@ -1,4 +1,4 @@
-package com.example.githubreposapp.presentation.common_components.shimmer.details
+package com.example.odcgithubrepoapp.presentation.common_component.shimmer.details
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AnimateShimmerDetails() {
+fun AnimateShimmerDetails(
+    innerPadding: PaddingValues
+) {
     val shimmerColors = listOf(
         Color.LightGray.copy(alpha = 0.6f),
         Color.LightGray.copy(alpha = 0.2f),
@@ -58,14 +61,18 @@ fun AnimateShimmerDetails() {
         end = Offset(x = translateAnim.value, y = translateAnim.value)
     )
 
-    ShimmerIssueItem(brush = brush)
+    ShimmerIssueItem(brush = brush, innerPadding = innerPadding)
 
 }
 
 @Composable
-fun ShimmerIssueItem(brush: Brush) {
+fun ShimmerIssueItem(
+    brush: Brush,
+    innerPadding: PaddingValues
+) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
@@ -142,6 +149,7 @@ fun ShimmerItemPreview() {
                 Color.LightGray.copy(alpha = 0.2f),
                 Color.LightGray.copy(alpha = 0.6f),
             )
-        )
+        ),
+        innerPadding = PaddingValues(12.dp)
     )
 }
